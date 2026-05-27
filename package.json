@@ -1,0 +1,80 @@
+{
+  "name": "real-time-editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "electron-main.cjs",
+  "scripts": {
+    "dev": "concurrently -n \"client,server\" -c \"cyan,magenta\" \"npm run client\" \"npm run server\"",
+    "client": "vite",
+    "server": "node server/index.js",
+    "desktop": "concurrently -k -n \"dev,desktop\" -c \"cyan,yellow\" \"npm run dev\" \"electron .\"",
+    "build": "tsc -b && vite build",
+    "build:client": "npm run build",
+    "dist": "npm run build:client && electron-builder",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tiptap/extension-collaboration": "^3.23.6",
+    "@tiptap/extension-collaboration-caret": "^3.23.6",
+    "@tiptap/react": "^3.23.6",
+    "@tiptap/starter-kit": "^3.23.6",
+    "@tiptap/y-tiptap": "^3.0.3",
+    "express": "^5.2.1",
+    "lucide-react": "^1.16.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "ws": "^8.21.0",
+    "y-prosemirror": "^1.3.7",
+    "y-websocket": "^1.5.4",
+    "yjs": "^13.6.30"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "electron": "^42.3.0",
+    "electron-builder": "^26.8.1",
+    "electron-packager": "^17.1.2",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  },
+  "build": {
+    "appId": "com.workspace.by.darkirat",
+    "productName": "workspace by darkirat",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron-main.cjs",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "workspace by darkirat"
+    }
+  }
+}
