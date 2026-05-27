@@ -54,8 +54,8 @@ function App() {
       return
     }
 
-    // Connect to a public global Yjs websocket server so anyone can collaborate from anywhere in the world
-    const wsUrl = 'wss://demos.yjs.dev'
+    // Connect to your custom Render backend for real-time collaboration
+    const wsUrl = 'wss://workspace-by-darkirat.onrender.com'
 
     const wsProvider = new WebsocketProvider(wsUrl, roomId, yDoc)
     setProvider(wsProvider)
@@ -107,8 +107,8 @@ function App() {
   // Share room link via clipboard
   const handleCopyLink = () => {
     if (window.location.protocol === 'file:') {
-      // In the desktop app, copy the local web server URL for browser testing
-      navigator.clipboard.writeText(`http://localhost:5173/?room=${roomId}`)
+      // In the desktop app, copy the live URL so people can join from the browser
+      navigator.clipboard.writeText(`https://workspace-by-darkirat.vercel.app/?room=${roomId}`)
     } else {
       navigator.clipboard.writeText(window.location.href)
     }
