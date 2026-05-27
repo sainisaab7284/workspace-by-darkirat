@@ -5,7 +5,7 @@ import { Header } from './components/Header'
 import { TextEditor } from './components/TextEditor'
 import { Whiteboard } from './components/Whiteboard'
 import { getRandomUser } from './utils/randomUser'
-import { Paintbrush, FileText, Info, Sparkles, LogIn } from 'lucide-react'
+import { Paintbrush, FileText, Info, Sparkles, LogIn, Maximize2, Minimize2 } from 'lucide-react'
 
 function App() {
   // 1. Manage Room ID routing
@@ -45,6 +45,7 @@ function App() {
 
   // Whiteboard panel toggle state
   const [showWhiteboard, setShowWhiteboard] = useState(true)
+  const [whiteboardFullscreen, setWhiteboardFullscreen] = useState(false)
 
   // Connection Lifecycle
   useEffect(() => {
@@ -282,41 +283,80 @@ function App() {
           </div>
 
           {/* Main Workspace Layout */}
-          <main className="max-w-[1700px] w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start flex-1">
+          <main className="max-w-[1700px] w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch flex-1">
             {/* Rich Text Editor */}
-            <section className={`transition-all duration-500 ease-in-out ${
-              showWhiteboard ? 'lg:col-span-7 xl:col-span-7' : 'lg:col-span-12 xl:col-span-12'
-            }`}>
-              <div className="flex items-center gap-2 mb-2 px-1">
-                <FileText className="h-4 w-4 text-violet-400" />
-                <h2 className="text-sm font-bold tracking-wide uppercase text-slate-300">Editor Panel</h2>
-              </div>
-              {provider && (
-                <TextEditor
-                  yDoc={yDoc}
-                  provider={provider}
-                  currentUser={{ name: username, color: usercolor }}
-                />
-              )}
-            </section>
-
-            {/* Toggleable Whiteboard Sidebar */}
-            {showWhiteboard && (
-              <section className="lg:col-span-5 xl:col-span-5 transition-all duration-500 ease-in-out flex flex-col h-full">
-                <div className="flex items-center gap-2 mb-2 px-1 justify-between">
-                  <span className="flex items-center gap-2">
-                    <Paintbrush className="h-4 w-4 text-cyan-400" />
-                    <h2 className="text-sm font-bold tracking-wide uppercase text-slate-300">Whiteboard Canvas</h2>
-                  </span>
-                  <span className="text-[10px] text-slate-500 font-medium">Live drawing</span>
+            {!whiteboardFullscreen && (
+              <section className={`transition-all duration-500 ease-in-out ${
+                showWhiteboard ? 'lg:col-span-7 xl:col-span-7' : 'lg:col-span-12 xl:col-span-12'
+              }`}>
+                <div className="flex items-center gap-2 mb-2 px-1">
+                  <FileText className="h-4 w-4 text-violet-400" />
+                  <h2 className="text-sm font-bold tracking-wide uppercase text-slate-300">Editor Panel</h2>
                 </div>
                 {provider && (
-                  <Whiteboard
+                  <TextEditor
                     yDoc={yDoc}
                     provider={provider}
+                    currentUser={{ name: username, color: usercolor }}
                   />
                 )}
               </section>
+            )}
+
+            {/* Whiteboard — normal sidebar or fullscreen overlay */}
+            {showWhiteboard && (
+              whiteboardFullscreen ? (
+                /* Fullscreen Whiteboard Overlay */
+                <div className="fixed inset-0 z-50 bg-slate-950 flex flex-col">
+                  <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 bg-slate-900/80 backdrop-blur-xl justify-between">
+                    <span className="flex items-center gap-2">
+                      <Paintbrush className="h-4 w-4 text-cyan-400" />
+                      <h2 className="text-sm font-bold tracking-wide uppercase text-slate-300">Whiteboard Canvas</h2>
+                      <span className="text-[10px] text-slate-500 font-medium ml-2">Fullscreen Mode</span>
+                    </span>
+                    <button
+                      onClick={() => setWhiteboardFullscreen(false)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass-button text-xs text-slate-300 hover:text-white border border-white/10 hover:border-cyan-500/40 transition-all"
+                      title="Exit Fullscreen"
+                    >
+                      <Minimize2 className="h-3.5 w-3.5" />
+                      <span>Exit Fullscreen</span>
+                    </button>
+                  </div>
+                  <div className="flex-1 overflow-hidden">
+                    {provider && (
+                      <Whiteboard
+                        yDoc={yDoc}
+                        provider={provider}
+                      />
+                    )}
+                  </div>
+                </div>
+              ) : (
+                /* Normal Sidebar Whiteboard */
+                <section className="lg:col-span-5 xl:col-span-5 transition-all duration-500 ease-in-out flex flex-col">
+                  <div className="flex items-center gap-2 mb-2 px-1 justify-between">
+                    <span className="flex items-center gap-2">
+                      <Paintbrush className="h-4 w-4 text-cyan-400" />
+                      <h2 className="text-sm font-bold tracking-wide uppercase text-slate-300">Whiteboard Canvas</h2>
+                    </span>
+                    <button
+                      onClick={() => setWhiteboardFullscreen(true)}
+                      className="flex items-center gap-1.5 px-2 py-1 rounded-lg glass-button text-[10px] text-slate-400 hover:text-cyan-400 border border-white/5 hover:border-cyan-500/30 transition-all"
+                      title="Fullscreen Whiteboard"
+                    >
+                      <Maximize2 className="h-3 w-3" />
+                      <span>Fullscreen</span>
+                    </button>
+                  </div>
+                  {provider && (
+                    <Whiteboard
+                      yDoc={yDoc}
+                      provider={provider}
+                    />
+                  )}
+                </section>
+              )
             )}
           </main>
 

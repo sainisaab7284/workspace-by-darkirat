@@ -325,7 +325,7 @@ export const Whiteboard: React.FC<WhiteboardProps> = ({
   const brushSizes = [2, 4, 8, 12]
 
   return (
-    <div className="flex flex-col h-full w-full rounded-2xl glass-panel border border-white/8 overflow-hidden bg-slate-950/20 shadow-2xl relative">
+    <div className="flex flex-col h-full w-full rounded-2xl glass-panel border border-white/8 overflow-hidden bg-slate-950/20 shadow-2xl relative" style={{ minHeight: '600px' }}>
       {/* Glow effect at top border */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
@@ -460,7 +460,7 @@ export const Whiteboard: React.FC<WhiteboardProps> = ({
       </div>
 
       {/* SVG Canvas Area */}
-      <div className="flex-1 bg-slate-950/80 relative cursor-crosshair overflow-hidden min-h-[900px]">
+      <div className="flex-1 bg-slate-950/80 relative cursor-crosshair overflow-hidden" style={{ minHeight: '550px' }}>
         {/* Neon grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px]" />
         
