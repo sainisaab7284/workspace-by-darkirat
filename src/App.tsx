@@ -55,7 +55,10 @@ function App() {
     }
 
     // Connect to your custom Render backend for real-time collaboration
-    const wsUrl = 'wss://workspace-by-darkirat.onrender.com'
+    // If your Render server is still down, you can temporarily use: 'wss://demos.yjs.dev/ws'
+    const wsUrl = import.meta.env.PROD 
+      ? 'wss://workspace-by-darkirat.onrender.com'
+      : 'ws://localhost:1234'
 
     const wsProvider = new WebsocketProvider(wsUrl, roomId, yDoc)
     setProvider(wsProvider)
