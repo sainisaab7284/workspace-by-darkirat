@@ -460,13 +460,13 @@ export const Whiteboard: React.FC<WhiteboardProps> = ({
       </div>
 
       {/* SVG Canvas Area */}
-      <div className="flex-1 bg-slate-950/80 relative cursor-crosshair overflow-hidden min-h-[500px]">
+      <div className="flex-1 bg-slate-950/80 relative cursor-crosshair overflow-hidden min-h-[900px]">
         {/* Neon grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px]" />
         
         <svg
           ref={svgRef}
-          viewBox="0 0 1600 1000"
+          viewBox="0 0 2400 1600"
           className="w-full h-full absolute inset-0 select-none touch-none"
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
